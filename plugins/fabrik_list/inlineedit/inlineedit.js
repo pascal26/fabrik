@@ -92,7 +92,7 @@ var FbListInlineEdit = new Class({
 					this.cancel(e);	
 					return false;			
 				}
-			}else{
+			} else {
 				if (e.target.hasClass('focusClass') && this.inedit) {
 					var newtd = this.td;
 					this.select(e, this.editing);
