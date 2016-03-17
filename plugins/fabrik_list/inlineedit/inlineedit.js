@@ -81,7 +81,7 @@ var FbListInlineEdit = new Class({
 		
 		// Click outside list clears down selection
 		window.addEvent('click', function (e) {
-			if(typeof this.activeElement !== 'null') {
+			if(this.activeElement !== 'null') {
 				this.save(this.activeElement, this.editing, 'clicked');
 			}
 
@@ -154,7 +154,6 @@ var FbListInlineEdit = new Class({
 
 	checkKey: function (e) {
 		var nexttds, row, index;
-		var doTab = false;
 		if (typeOf(this.td) !== 'element') {
 			return;
 		}
@@ -186,7 +185,7 @@ var FbListInlineEdit = new Class({
 				} else {
 					this.edit(e, this.td);
 				}
-			}else{
+			} else {
 				e.stop();
 				this.inedit = false;
 				this.select(e, this.getNextEditable(this.td));
@@ -211,7 +210,7 @@ var FbListInlineEdit = new Class({
 				}
 			}
 			row = this.td.getParent();
-			this.downaction(e,row);
+			this.downaction(e, row);
 			break;
 		case 38:
 			//up
@@ -223,7 +222,7 @@ var FbListInlineEdit = new Class({
 				}
 			}
 			row = this.td.getParent();
-			this.upaction(e,row);
+			this.upaction(e, row);
 			break;
 		case 27:
 			//escape
@@ -259,7 +258,7 @@ var FbListInlineEdit = new Class({
 		}
 	},
 	
-	downaction: function(e,row) {
+	downaction: function(e, row) {
 		if (typeOf(row) === 'null') {
 			return;
 		}
@@ -271,7 +270,7 @@ var FbListInlineEdit = new Class({
 		}		
 	},
 	
-	upaction: function(e,row) {
+	upaction: function(e, row) {
 		if (typeOf(row) === 'null') {
 			return;
 		}
@@ -711,17 +710,17 @@ var FbListInlineEdit = new Class({
 				this.stopEditing();
 				this.saving = false;
 				
-				switch(action){
+				switch(action) {
 					case 'clicked':				
 						jQuery('td.focusClass').click();
 						break;
 					case 'down':
 						row = td.getParent();
-						this.downaction(e,row);
+						this.downaction(e, row);
 						break;
 					case 'up':
 						row = td.getParent();
-						this.upaction(e,row);
+						this.upaction(e, row);
 						break;
 					default:
 						break;
