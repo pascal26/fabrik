@@ -79,9 +79,18 @@ var FbListInlineEdit = new Class({
 			this.setFocus(this.editCell);
 		}.bind(this));
 		
-		// Click outside list clears down selection
+		// Activate edit mode in clicked element
 		window.addEvent('click', function (e) {
-			if(this.activeElement !== 'null') {
+			
+			// check to see if clicked element is already in edit mode
+			var activeClassName	= this.activeElement.target.className;
+			var activeClasses = activeClassName.split(" ");
+			if (activeClasses[0] == e.target.id){
+				return;
+			}
+			
+			// First save current current edit if there is one
+			if (this.activeElement !== null) {	
 				this.save(this.activeElement, this.editing, 'clicked');
 			}
 
