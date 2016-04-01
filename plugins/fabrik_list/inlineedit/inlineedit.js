@@ -82,15 +82,14 @@ var FbListInlineEdit = new Class({
 		// Activate edit mode in clicked element
 		window.addEvent('click', function (e) {
 			
-			// check to see if clicked element is already in edit mode
-			var activeClassName	= this.activeElement.target.className;
-			var activeClasses = activeClassName.split(" ");
-			if (activeClasses[0] == e.target.id){
-				return;
-			}
-			
 			// First save current current edit if there is one
 			if (this.activeElement !== null) {	
+				// check to see if clicked element is already in edit mode
+				var activeClassName	= this.activeElement.target.className;
+				var activeClasses = activeClassName.split(" ");
+				if (activeClasses[0] == e.target.id){
+					return;
+				}
 				this.save(this.activeElement, this.editing, 'clicked');
 			}
 
@@ -101,7 +100,7 @@ var FbListInlineEdit = new Class({
 					this.cancel(e);	
 					return false;			
 				}
-			} else {
+			}else{
 				if (e.target.hasClass('focusClass') && this.inedit) {
 					var newtd = this.td;
 					this.select(e, this.editing);
@@ -177,7 +176,7 @@ var FbListInlineEdit = new Class({
 			}
 			break;
 		case 39:
-			//right
+			// right
 			if (this.inedit) {
 				return;
 			}
@@ -187,6 +186,7 @@ var FbListInlineEdit = new Class({
 			}
 			break;
 		case 9:
+			// tab
 			if (this.inedit && this.options.tabSave) {
 				if (typeOf(this.editing) === 'element') {
 					this.save(e, this.editing);
@@ -200,7 +200,7 @@ var FbListInlineEdit = new Class({
 				this.select(e, this.getNextEditable(this.td));
 			}
 			break;
-		case 37: //left
+		case 37: // left
 			if (this.inedit) {
 				return;
 			}
@@ -210,7 +210,7 @@ var FbListInlineEdit = new Class({
 			}
 			break;
 		case 40:
-			//down
+			// down
 			if (this.inedit && this.options.tabSave) {
 				if (typeOf(this.editing) === 'element') {
 					this.save(e, this.editing, 'down');
@@ -222,7 +222,7 @@ var FbListInlineEdit = new Class({
 			this.downaction(e, row);
 			break;
 		case 38:
-			//up
+			// up
 			if (this.inedit && this.options.tabSave) {
 				if (typeOf(this.editing) === 'element') {
 					this.save(e, this.editing, 'up');
@@ -234,7 +234,7 @@ var FbListInlineEdit = new Class({
 			this.upaction(e, row);
 			break;
 		case 27:
-			//escape
+			// escape
 			e.stop();
 			if (!this.inedit) {
 				this.td.removeClass(this.options.focusClass);
@@ -245,7 +245,7 @@ var FbListInlineEdit = new Class({
 			}
 			break;
 		case 13:
-			//enter
+			// enter
 			// Already editing or no cell selected
 			if (typeOf(this.td) !== 'element') {
 				return;
@@ -353,7 +353,7 @@ var FbListInlineEdit = new Class({
 	},
 
 	isEditable: function (cell) {
-		if (typeof cell === 'undefined'){
+		if (Boolean(cell) === false){	
 			return false;
 		}
 		if (cell.hasClass('fabrik_uneditable') || cell.hasClass('fabrik_ordercell') || cell.hasClass('fabrik_select') || cell.hasClass('fabrik_actions')) {
@@ -628,7 +628,6 @@ var FbListInlineEdit = new Class({
 	},
 
 	save: function (e, td, action) {
-		
 		if(typeof td === 'undefined'){
 			this.cancel(e);
 			return false;
@@ -718,7 +717,6 @@ var FbListInlineEdit = new Class({
 				Fabrik.fireEvent('fabrik.list.updaterows');
 				this.stopEditing();
 				this.saving = false;
-				
 				switch(action) {
 					case 'clicked':				
 						jQuery('td.focusClass').click();
