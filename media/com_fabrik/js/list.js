@@ -666,8 +666,12 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
                         return;
                     }
                     h.attr('class', newOrderClass);
-                    i = h.find('img');
-                    icon = h.firstElementChild;
+                    if (Fabrik.bootstrapped) {
+                        icon = h.find('*[data-isicon]');
+                    } else  {
+                        i = h.find('img');
+                        icon = h.firstElementChild;
+                    }
 
                     // Swap images - if list doing ajax nav then we need to do this
                     if (self.options.singleOrdering) {
@@ -1097,13 +1101,13 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
              * @private
              */
             _updateHeadings: function (data) {
-                var header = jQuery('#' + this.options.form).find('.fabrik___heading').last(),
-                    headings = new Hash(data.headings);
-                headings.each(function (data, key) {
+                var headers = jQuery('#' + this.options.form).find('.fabrik___heading');
+
+                jQuery.each(data.headings, function (key, data) {
                     key = '.' + key;
                     try {
                         // $$$ rob 28/10/2011 just alter span to allow for maintaining filter toggle links
-                        header.find(key + ' span').html(data);
+                        headers.find(key + ' span').html(data);
                     } catch (err) {
                         fconsole(err);
                     }
@@ -1145,11 +1149,15 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
                 if (!(data.id === this.id && data.model === 'list')) {
                     return;
                 }
+
                 this._updateHeadings(data);
                 this.setItemTemplate();
 
                 cell = jQuery(this.list).find('.fabrik_row').first();
 
+                if (cell.length === 0) {
+                    cell = jQuery(this.options.itemTemplate);
+                }
                 if (cell.prop('tagName') === 'TR') {
                     parent = cell;
                     columnCount = 1;
@@ -1431,7 +1439,6 @@ define(['jquery', 'fab/fabrik', 'fab/list-toggle', 'fab/list-grouped-toggler', '
              * currently only called from element raw view when using inline edit plugin
              * might need to use for ajax nav as well?
              */
-
             updateCals: function (json) {
                 var types = ['sums', 'avgs', 'count', 'medians'];
                 this.form.getElements('.fabrik_calculations').each(function (c) {
