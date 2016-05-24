@@ -6721,11 +6721,6 @@ class PlgFabrik_Element extends FabrikPlugin
 		{
 			$thousandSep = ' ';
 		}
-		// empty separator
-		if ($thousandSep == '#0')
-		{
-			$thousandSep = '';
-		}
 
 		return number_format((float) $data, $decimalLength, $decimalSep, $thousandSep);
 	}
@@ -6756,11 +6751,6 @@ class PlgFabrik_Element extends FabrikPlugin
 		if ($thousandSep == '#32')
 		{
 			$thousandSep = ' ';
-		}
-		// empty separator
-		if ($thousandSep == '#0')
-		{
-			$thousandSep = '';
 		}
 
 		$val = str_replace($thousandSep, '', $val);
