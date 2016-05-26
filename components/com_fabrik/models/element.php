@@ -6727,8 +6727,9 @@ class PlgFabrik_Element extends FabrikPlugin
 		{
 			$thousandSep = ' ';
 		}
-		// empty separator
-		if ($thousandSep == '#0')
+
+		else if ($thousandSep == '#00')
+
 		{
 			$thousandSep = '';
 		}
@@ -6763,13 +6764,12 @@ class PlgFabrik_Element extends FabrikPlugin
 		{
 			$thousandSep = ' ';
 		}
-		// empty separator
-		if ($thousandSep == '#0')
+
+		else if ($thousandSep == '#00')
 		{
 			$thousandSep = '';
 		}
-
-
+		
 		$val = str_replace($thousandSep, '', $val);
 		$val = str_replace($decimalSep, '.', $val);
 
