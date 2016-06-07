@@ -782,21 +782,22 @@ EOD;
 	/**
 	 * Load the MCL canvas layer library
 	 *
-	 * @return  void
+	 * @return  array Scripts needed to load MCL
 	 */
 	public static function mcl()
 	{
+		// Cant used compressed version as its not up to date
+		$src = array('media/com_fabrik/js/lib/mcl/CANVAS.js', 'media/com_fabrik/js/lib/mcl/CanvasItem.js',
+			'media/com_fabrik/js/lib/mcl/Cmorph.js', 'media/com_fabrik/js/lib/mcl/Layer.js', 'media/com_fabrik/js/lib/mcl/LayerHash.js',
+			'media/com_fabrik/js/lib/mcl/Thread.js');
+
 		if (!self::$mcl)
 		{
-			// Cant used compressed version as its not up to date
-			$src = array('media/com_fabrik/js/lib/mcl/CANVAS.js', 'media/com_fabrik/js/lib/mcl/CanvasItem.js',
-				'media/com_fabrik/js/lib/mcl/Cmorph.js', 'media/com_fabrik/js/lib/mcl/Layer.js', 'media/com_fabrik/js/lib/mcl/LayerHash.js',
-				'media/com_fabrik/js/lib/mcl/Thread.js');
-
-			// , 'media/com_fabrik/js/canvas-extra.js'
 			self::script($src);
 			self::$mcl = true;
 		}
+
+		return $src;
 	}
 
 	/**
@@ -1045,7 +1046,7 @@ EOD;
 		{
 			if (is_array($newShim) && array_key_exists($k, $newShim))
 			{
-				$s->deps = array_merge($s->deps, $newShim[$k]->deps);
+				$s->deps = array_unique(array_merge($s->deps, $newShim[$k]->deps));
 			}
 
 			$newShim[$k] = $s;
