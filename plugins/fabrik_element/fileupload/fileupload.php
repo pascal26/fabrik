@@ -542,6 +542,8 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		if ($params->get('fu_show_image_in_table', '0') != '2')
 		{
 			$data     = json_encode($data);
+			// icons will already have been set in _renderListData
+			$opts['icon'] = 0;
 			$rendered = parent::renderListData($data, $thisRow, $opts);
 		}
 
@@ -1048,12 +1050,13 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		{
 			$mediaParams = JComponentHelper::getParams('com_media');
 			$aFileTypes  = explode(',', $mediaParams->get('upload_extensions'));
-			if (!$stripDot)
+		}
+
+		if (!$stripDot)
+		{
+			foreach ($aFileTypes as &$type)
 			{
-				foreach ($aFileTypes as &$type)
-				{
-					$type = '.' . $type;
-				}
+				$type = '.' . $type;
 			}
 		}
 
@@ -2327,7 +2330,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 
 		$accept = !empty($fileTypes) ? ' accept="' . $fileTypes . '" ' : ' ';
 
-		$str[] = $allRenders . '<input class="fabrikinput" name="' . $name . '" type="file" id="' . $accept . $id . '" ' . $capture . ' />' . "\n";
+		$str[] = $allRenders . '<input class="fabrikinput" name="' . $name . '" type="file" ' . $accept . ' id="' . $id . '" ' . $capture . ' />' . "\n";
 
 		if ($params->get('fileupload_storage_type', 'filesystemstorage') == 'filesystemstorage' && $params->get('upload_allow_folderselect') == '1')
 		{
@@ -3090,10 +3093,7 @@ class PlgFabrik_ElementFileupload extends PlgFabrik_Element
 		$filePath = FabrikWorker::JSONtoData($filePath, false);
 		$filePath = is_object($filePath) ? FArrayHelper::fromObject($filePath) : (array) $filePath;
 
-		if ($this->getGroupModel()->canRepeat())
-		{
-			$filePath = FArrayHelper::getValue($filePath, $repeatCount);
-		}
+		$filePath = FArrayHelper::getValue($filePath, $repeatCount);
 
 		if ($ajaxIndex !== '')
 		{
