@@ -5,6 +5,7 @@
 *.txt
 *.xml
 *.jpg
+.DS_Store
 .htaccess
 php.ini
 build/
