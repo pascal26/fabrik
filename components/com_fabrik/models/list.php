@@ -3256,13 +3256,6 @@ class FabrikFEModelList extends JModelForm
 				}
 			}
 		}
-		
-		$params = $this->getParams();
- 		$groupbyElement = $params->get('sql_groupby', '');
- 		if (!empty($groupbyElement))
- 		{
- 			$this->pluginQueryGroupBy[] = $groupbyElement;
- 		}
 
 		if (!empty($this->pluginQueryGroupBy))
 		{
